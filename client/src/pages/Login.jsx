@@ -1,0 +1,121 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useMessagesContext } from "../hooks/MessagesContext";
+import { useAuth } from "../hooks/useAuth";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faLock, faEnvelope } from '@fortawesome/free-solid-svg-icons'
+
+import { Box, Button, Container, Form, Heading, Icon } from "react-bulma-components";
+
+export const Login = () => {
+  const navigate = useNavigate();
+  const { login, logout } = useAuth();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const { addMessage, removeMessage } = useMessagesContext();
+
+  const onEmailChange = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const onPasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      if (!email) {
+        addMessage(`Enter your email`);
+        return;
+      }
+      if (!password) {
+        addMessage(`Enter your password`);
+        return;
+      }
+
+      const res = await login(email, password);
+      console.log({ res });
+      if (res.error) {
+        console.warn("Bad payload");
+        addMessage(`ERROR: ${res.error}`);
+        logout();
+        return;
+      }
+      if (!res.token) {
+        console.warn("No token");
+        addMessage(`ERROR: Please, check your email address or password. `);
+        logout();
+        return;
+      }
+      removeMessage();
+
+      navigate("/");
+    }
+    catch (err) {
+      console.log({ err });
+      addMessage(`ERROR: ${err}`);
+      logout();
+    }
+  };
+
+  return (
+    <Container >
+      <Heading>
+        Login
+      </Heading>
+      <Heading subtitle>
+        Please enter your e-mail and password
+      </Heading>
+
+      <Box style={{ width: 400, margin: 'auto' }}
+        as="form" onSubmit={handleSubmit}
+      >
+        <Form.Field>
+          <Form.Label>Name</Form.Label>
+          <Form.Control>
+            <Form.Input
+              placeholder="testas@testas.com"
+              name="email"
+              type="email"
+              required
+              value={email}
+              onChange={onEmailChange}
+            />
+            <Icon align="left">
+              <FontAwesomeIcon icon={faEnvelope} />
+            </Icon>
+          </Form.Control>
+        </Form.Field>
+        <Form.Field>
+          <Form.Label>Password</Form.Label>
+          <Form.Control>
+            <Form.Input
+              placeholder="Password"
+              name="password"
+              type="password"
+              required
+              minLength={8}
+              onChange={onPasswordChange}
+            />
+            <Icon align="left">
+              <FontAwesomeIcon icon={faLock} />
+            </Icon>
+          </Form.Control>
+        </Form.Field>
+        <Button.Group>
+          <Button
+            fullwidth
+            rounded
+            color="primary"
+            type="submit"
+            disabled={!email || !password}
+            onClick={handleSubmit}
+          >Login</Button>
+        </Button.Group>
+      </Box>
+
+    </Container>
+  );
+};

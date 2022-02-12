@@ -16,8 +16,7 @@ async function getDalyviai(mysql, user_id) {
                 d.lastname,
                 d.email,
                 d.birth_date,
-                d.user_id,
-                u.email               
+                d.user_id
             FROM 
                 dalyviai d
                 WHERE user_id = ?               
@@ -61,11 +60,14 @@ router.post('/', loggedInMiddleware, async (req, res) => {
     }
 })
 
-router.get("/", async (req, res) => {
+router.get("/", loggedInMiddleware, async (req, res) => {
     try {
         const { mysql } = req.app;
 
+        console.log(req.token);
+
         const user_id = req.token.id;
+
         const dalyviai = await getDalyviai(mysql, user_id);
 
         res.send({
