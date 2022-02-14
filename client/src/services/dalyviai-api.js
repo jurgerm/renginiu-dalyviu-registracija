@@ -34,7 +34,9 @@ export class DalyviaiApi {
     }
 
     static async updateDalyviai(dalyvis, token) {
-        if (!dalyvis) throw new Error("No argument");
+        if (!dalyvis) {
+            throw new Error("Nepaduotas dalyvis atnaujinimui.");
+        }
         const res = await fetch(
             `${API_URL}/`, {
             method: "PATCH",

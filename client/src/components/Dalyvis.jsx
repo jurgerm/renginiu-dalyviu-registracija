@@ -5,15 +5,19 @@ import { useAuth } from "../hooks/useAuth";
 import { useMessagesContext } from "../hooks/MessagesContext";
 
 import { DalyviaiApi } from "../services/dalyviai-api";
+import { useState } from "react";
+import { UpdateDalyvis } from "./UpdateDalyvis";
 
 export const Dalyvis = ({ dalyvisId, dalyvis, onRowUpdate }) => {
     const { token } = useAuth();
     const { addMessage } = useMessagesContext();
 
+    const [isEditing, setEditing] = useState(false);
+
     const onDeleteDalyvis = async (e) => {
         e.preventDefault();
         try {
-            if (window.confirm("Nori ištrinti?")) {
+            if (window.confirm(`Norite ištrinti „${dalyvis.firstname} ${dalyvis.lastname}“?`)) {
                 const dalyvis = await DalyviaiApi.deleteDalyviai(dalyvisId, token);
 
                 if (dalyvis.error) {
@@ -28,32 +32,59 @@ export const Dalyvis = ({ dalyvisId, dalyvis, onRowUpdate }) => {
         }
     }
 
+    const onaaa = async (e) => {
+        e.preventDefault();
+        setEditing(true);
+    }
+
+    const onDalyvisUpdate = () => {
+        setEditing(false);
+        onRowUpdate();
+    }
+
+    const onDalyvisCancelUpdate = () => {
+        setEditing(false);
+    }
+
     return (
-        <Columns>
-            <Columns.Column>
-            </Columns.Column>
-            <Columns.Column>
-                {dalyvis.firstname}
-            </Columns.Column>
-            <Columns.Column>
-                {dalyvis.lastname}
-            </Columns.Column>
-            <Columns.Column>
-                {dalyvis.email}
-            </Columns.Column>
-            <Columns.Column>
-                {new Date(dalyvis.birth_date).toLocaleDateString()}
-            </Columns.Column>
-            <Columns.Column>
-                <span className="mx-3">
-                    <FontAwesomeIcon icon={faPen} />
-                </span>
-                <span className="mx-3">
-                    <FontAwesomeIcon icon={faTrash}
-                        onClick={onDeleteDalyvis}
-                    />
-                </span>
-            </Columns.Column>
-        </Columns>
+        <div>
+            {(isEditing) ? (
+                <UpdateDalyvis
+                    key={dalyvis.id}
+                    dalyvisId={dalyvis.id}
+                    dalyvis={dalyvis}
+                    onUpdated={onDalyvisUpdate}
+                    onCancelUpdate={onDalyvisCancelUpdate}
+                />
+            ) : (
+                <Columns>
+                    <Columns.Column>
+                    </Columns.Column>
+                    <Columns.Column>
+                        {dalyvis.firstname}
+                    </Columns.Column>
+                    <Columns.Column>
+                        {dalyvis.lastname}
+                    </Columns.Column>
+                    <Columns.Column>
+                        {dalyvis.email}
+                    </Columns.Column>
+                    <Columns.Column>
+                        {new Date(dalyvis.birth_date).toLocaleDateString()}
+                    </Columns.Column>
+                    <Columns.Column>
+                        <span className="mx-3">
+                            <FontAwesomeIcon icon={faPen} onClick={onaaa} />
+                        </span>
+                        <span className="mx-3">
+                            <FontAwesomeIcon icon={faTrash}
+                                onClick={onDeleteDalyvis}
+                            />
+                        </span>
+                    </Columns.Column>
+                </Columns>
+            )
+            }
+        </div>
     );
 };

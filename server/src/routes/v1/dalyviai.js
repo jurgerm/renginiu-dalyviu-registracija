@@ -115,6 +115,7 @@ router.patch('/', loggedInMiddleware, async (req, res) => {
             user_id
         })
     } catch (error) {
+        console.log(error);
         res.status(500).send({
             error: error.message,
         });
