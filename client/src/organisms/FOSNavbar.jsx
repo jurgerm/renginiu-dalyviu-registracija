@@ -54,13 +54,13 @@ export const FOSNavbar = () => {
           {auth.token ? '' : (
             <NavLink to="/login"
               className={(navData) => (navData.isActive ? "navbar-item is-active" : 'navbar-item')}
-            >Login</NavLink>
+            >Prisijungimas</NavLink>
           )}
 
           {auth.token ? '' : (
             <NavLink to="/register"
               className={(navData) => (navData.isActive ? "navbar-item is-active" : 'navbar-item')}
-            >Register</NavLink>
+            >Registracija</NavLink>
           )}
 
           {auth.token && (

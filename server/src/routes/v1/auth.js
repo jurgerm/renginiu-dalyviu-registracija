@@ -30,7 +30,7 @@ router.post('/register', async (req, res) => {
         const [ data ] = await mysql.query(query);
         return res.status(201).send(data)
     } catch (error) {
-        return res.status(500).send({ error: 'Please try again !' })
+        return res.status(500).send({ error: 'Bandykite dar kartą!' })
     }
 });
 
@@ -41,7 +41,7 @@ router.post('/login', async (req, res) => {
     try {
         userData = await userSchema.validateAsync(userData);
     } catch (error) {
-        return res.status(404).send({error: 'Incorrect email or password'})
+        return res.status(404).send({ error: 'Neteisingas el. paštas arba slaptažodis.'})
     }
     
     try {
@@ -56,13 +56,13 @@ router.post('/login', async (req, res) => {
         const isAuthed = bcrypt.compareSync(userData.password, data[0].password);
         
         if (!isAuthed) {
-            return res.status(400).send({ error: 'Incorrect email or password'})
+            return res.status(400).send({ error: 'Neteisingas el. paštas arba slaptažodis.'})
         }
         
         const token = jwt.sign({id: data[0].id, email: data[0].email}, jwtSecret);
         return res.status(200).send({msg: 'Successfully logged in', token});
     } catch (error) {
-        return res.status(500).send({ error: 'Please try again'})
+        return res.status(500).send({ error: 'Bandykite dar kartą!'})
     }
 })
 

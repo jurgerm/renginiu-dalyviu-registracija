@@ -60,17 +60,17 @@ export const Register = () => {
   return (
     <Container >
       <Heading>
-        Registration form
-      </Heading>
+        Registracijos forma
+              </Heading>
       <Heading subtitle>
-        Please enter e-mail and password
+        Įveskite savo el. paštą ir slaptažodį.
       </Heading>
 
       <Box style={{ width: 400, margin: 'auto' }}
         as="form" onSubmit={handleSubmit}
       >
         <Form.Field>
-          <Form.Label>Name</Form.Label>
+          <Form.Label>El. paštas</Form.Label>
           <Form.Control>
             <Form.Input
               placeholder="testas@testas.com"
@@ -86,10 +86,10 @@ export const Register = () => {
           </Form.Control>
         </Form.Field>
         <Form.Field>
-          <Form.Label>Password</Form.Label>
+          <Form.Label>Slaptažodis</Form.Label>
           <Form.Control>
             <Form.Input
-              placeholder="Password"
+              placeholder="Slaptažodis"
               name="password"
               type="password"
               required

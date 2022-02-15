@@ -45,7 +45,7 @@ export const Login = () => {
       }
       if (!res.token) {
         console.warn("No token");
-        addMessage(`ERROR: Please, check your email address or password. `);
+        addMessage(`ERROR: Neteisingas el. paštas arba slaptažodis. `);
         logout();
         return;
       }
@@ -63,17 +63,17 @@ export const Login = () => {
   return (
     <Container >
       <Heading>
-        Login
+        Prisijungimas 
       </Heading>
       <Heading subtitle>
-        Please enter your e-mail and password
+        Įveskite savo el. paštą ir slaptažodį.
       </Heading>
 
       <Box style={{ width: 400, margin: 'auto' }}
         as="form" onSubmit={handleSubmit}
       >
         <Form.Field>
-          <Form.Label>Name</Form.Label>
+          <Form.Label>El. paštas</Form.Label>
           <Form.Control>
             <Form.Input
               placeholder="testas@testas.com"
@@ -89,7 +89,7 @@ export const Login = () => {
           </Form.Control>
         </Form.Field>
         <Form.Field>
-          <Form.Label>Password</Form.Label>
+          <Form.Label>Slaptažodis</Form.Label>
           <Form.Control>
             <Form.Input
               placeholder="Password"
@@ -112,7 +112,7 @@ export const Login = () => {
             type="submit"
             disabled={!email || !password}
             onClick={handleSubmit}
-          >Login</Button>
+          >Prisijungti</Button>
         </Button.Group>
       </Box>
 
