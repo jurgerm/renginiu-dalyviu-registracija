@@ -4,9 +4,9 @@
 
 // 2. Set your own initial variables
 // Update blue
-$blue: #a349fc;
+$blue: black;
 // Add pink and its invert
-$pink: #a349fc;
+$pink: black;
 $pink-invert: #fff;
 // Add a serif family
 $family-serif: "Roboto", serif;
@@ -61,12 +61,31 @@ a {
   }
 }
 
+.navbar-item {
+  img {
+    max-height: 4rem;
+  }
+}
+
 .content-container {
-  .container{
-  > h1 {
-    &:first-child {
-      margin-top: 2rem;
+  .container {
+    > h1 {
+      &:first-child {
+        margin-top: 2rem;
+      }
     }
   }
 }
+
+.table-header {
+  border-bottom: solid black 1px;
+  .column {
+    font-weight: bold;
+  }
+}
+
+.table-row {
+  &:hover {
+    background-color: #eeeeee;
+  }
 }

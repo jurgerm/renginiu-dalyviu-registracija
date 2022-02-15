@@ -57,7 +57,7 @@ export const Dalyvis = ({ dalyvisId, dalyvis, onRowUpdate }) => {
                     onCancelUpdate={onDalyvisCancelUpdate}
                 />
             ) : (
-                <Columns>
+                <Columns className="table-row">
                     <Columns.Column>
                     </Columns.Column>
                     <Columns.Column>

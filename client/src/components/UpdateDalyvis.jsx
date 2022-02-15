@@ -44,7 +44,7 @@ export const UpdateDalyvis = ({ dalyvis, onUpdated, onCancelUpdate }) => {
     }
 
     return (
-        <Columns>
+        <Columns className="table-row">
             <Columns.Column>
                 &nbsp;
             </Columns.Column>
