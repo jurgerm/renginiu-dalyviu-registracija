@@ -8,6 +8,7 @@ import { Box, Button, Container, Form, Heading, Icon } from "react-bulma-compone
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faLock, faEnvelope } from '@fortawesome/free-solid-svg-icons'
+import { validateEmail } from "../services/validation";
 
 export const Register = () => {
   const navigate = useNavigate();
@@ -28,30 +29,50 @@ export const Register = () => {
     e.preventDefault();
     try {
       if (!email) {
-        addMessage(`Enter your email`);
+        addMessage(`Įveskite el. paštą.`);
         return;
       }
+
+      if (email.indexOf("@") === -1) {
+        addMessage(`El. pašte pamiršote įrašyti @.`);
+        return;
+
+      }
+
+      if (!validateEmail(email)) {
+        addMessage(`Klaida! Prašome įvesti galiojantį el. paštą.`);
+        return;
+      }
+
       if (!password) {
-        addMessage(`Enter your password`);
+        addMessage(`Įveskite slaptažodį.`);
         return;
       }
+
+      if (password.length < 8) {
+        addMessage(`Slaptažodį turi sudaryti ne mažiau kaip 8 simboliai.`);
+        return;
+      }
+
+      console.log(password.length);
+
       const res = await Auth.register(email, password);
 
       if (res.error) {
         console.warn("Bad payload");
-        addMessage(`ERROR: ${res.error}`);
+        addMessage(`Klaida: ${res.error}`);
         logout();
         return;
       }
 
-      addMessage("Registration is succesfull. Now You can login using these credentials.");
+      addMessage("Registracija sėkminga. Galite prisijungti naudodami savo el paštą ir slaptažodį.");
 
       navigate("/login");
 
     }
     catch (err) {
       console.log({ err });
-      addMessage(`ERROR: ${err}`);
+      addMessage(`Klaida: ${err}`);
       logout();
     }
 
@@ -61,7 +82,7 @@ export const Register = () => {
     <Container >
       <Heading>
         Registracijos forma
-              </Heading>
+      </Heading>
       <Heading subtitle>
         Įveskite savo el. paštą ir slaptažodį.
       </Heading>
@@ -109,7 +130,7 @@ export const Register = () => {
             type="submit"
             disabled={!email || !password}
             onClick={handleSubmit}
-          >Register</Button>
+          >Registruotis</Button>
         </Button.Group>
       </Box>
 

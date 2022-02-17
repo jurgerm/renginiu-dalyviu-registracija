@@ -27,25 +27,27 @@ export const Login = () => {
     e.preventDefault();
     try {
       if (!email) {
-        addMessage(`Enter your email`);
+        addMessage(`Įrašykite el. paštą.`);
         return;
+
       }
+
       if (!password) {
-        addMessage(`Enter your password`);
+        addMessage(`Įrašykite slaptažodį.`);
         return;
       }
 
       const res = await login(email, password);
       console.log({ res });
       if (res.error) {
-        console.warn("Bad payload");
-        addMessage(`ERROR: ${res.error}`);
+        console.log(`Klaida: ${res.error}.`);
+        addMessage(`Klaida! Neteisingas el. paštas arba slaptažodis.`);
         logout();
         return;
       }
       if (!res.token) {
         console.warn("No token");
-        addMessage(`ERROR: Neteisingas el. paštas arba slaptažodis. `);
+        addMessage(`Klaida! Neteisingas el. paštas arba slaptažodis.`);
         logout();
         return;
       }
@@ -55,7 +57,7 @@ export const Login = () => {
     }
     catch (err) {
       console.log({ err });
-      addMessage(`ERROR: ${err}`);
+      addMessage(`Klaida: ${err}`);
       logout();
     }
   };
@@ -63,7 +65,7 @@ export const Login = () => {
   return (
     <Container >
       <Heading>
-        Prisijungimas 
+        Prisijungimas
       </Heading>
       <Heading subtitle>
         Įveskite savo el. paštą ir slaptažodį.

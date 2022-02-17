@@ -18,7 +18,12 @@ router.post('/register', async (req, res) => {
     try {
         userData = await userSchema.validateAsync(userData);
     } catch (error) {
-        return res.status(404).send({ error: 'Incorrect data' });
+        return res.status(412).send(
+            { 
+                error: 'Neteisingi duomenys.', 
+                data: userData 
+            }
+            );
     }
     
     try {

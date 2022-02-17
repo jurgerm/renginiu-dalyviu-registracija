@@ -4,8 +4,7 @@ const mysql = require('mysql2/promise');
 
 const { dbConfig, port } = require('./config');
 const auth = require('./src/routes/v1/auth');
-const questions = require('./src/routes/v1/dalyviai');
-
+const dalyviai = require('./src/routes/v1/dalyviai');
 
 const main = async () => {
     const app = express();
@@ -14,12 +13,13 @@ const main = async () => {
 
         app.use(express.json());
         app.use(cors());
-        app.mysql = connection
+        app.mysql = connection;
+
+        console.log("aaa");
 
         app.use('/v1/auth', auth);
-        app.use('/v1/dalyviai', questions);
+        app.use('/v1/dalyviai', dalyviai);
        
-
         app.get('*', (req, res) => {
             res.status(404).send({ error: 'Page not found. Call Jurgita!' })
         });
@@ -30,9 +30,6 @@ const main = async () => {
     } catch (error) {
         console.error(error, 'Something wrong with database');
     }
-
-
-
 
 };
 
