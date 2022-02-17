@@ -28,7 +28,7 @@ export const Dalyvis = ({ dalyvisId, dalyvis, onRowUpdate }) => {
                 onRowUpdate();
             }
         } catch (error) {
-            addMessage(`Error: ${error}`);
+            addMessage(`Klaida: ${error}`);
         }
     }
 

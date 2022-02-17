@@ -5,6 +5,8 @@ import { useMessagesContext } from "../hooks/MessagesContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { DalyviaiApi } from "../services/dalyviai-api";
+import { validateEmail } from "../services/validation";
+import { setFirstnameError, setLastnameError, setEmailError, setBirth_dateError } from "../services/dalyvioValidacija";
 
 export const UpdateDalyvis = ({ dalyvis, onUpdated, onCancelUpdate }) => {
     const [firstname, setFirstname] = useState(dalyvis.firstname);
@@ -17,10 +19,58 @@ export const UpdateDalyvis = ({ dalyvis, onUpdated, onCancelUpdate }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!firstname || !lastname || !email || !birth_date) {
-            addMessage("Užpildykite visus laukus apie dalyvį.")
+        if (!firstname) {
+            addMessage("Įrašykite vardą.");
+            setFirstnameError(dalyvis.id, true);
             return;
         }
+
+        setFirstnameError(dalyvis.id, false);
+
+        if (!lastname) {
+            addMessage("Įrašykite pavardę.");
+            setLastnameError(dalyvis.id, true);
+            return;
+        }
+
+        setLastnameError(dalyvis.id, false);
+
+        if (!email) {
+            addMessage("Įrašykite el. paštą.");
+            setEmailError(dalyvis.id, true);
+            return;
+        }
+
+        if (!validateEmail(email)) {
+            addMessage(`Klaida! Prašome įvesti galiojantį el. paštą.`);
+            setEmailError(dalyvis.id, true);
+            return;
+        }
+
+        setEmailError(dalyvis.id, false);
+
+        if (!birth_date) {
+            addMessage("Klaida! Įrašykite gimimo datą.");
+            setBirth_dateError(dalyvis.id, true);
+            return;
+        }
+
+        if (new Date(birth_date).toLocaleDateString() === 'Invalid Date') {
+            addMessage("Klaida! Įrašykite gimimo datą formatu YYYY-MM-DD.");
+
+            setBirth_dateError(dalyvis.id, true);
+
+            return;
+        }
+
+        const dalyvio_metai = new Date(birth_date).getFullYear();
+        const einamieji_metai = new Date().getFullYear();
+        if (einamieji_metai - dalyvio_metai < 18) {
+            addMessage("Klaida! Dalyviai turi būti pilnamečiai.");
+            setBirth_dateError(dalyvis.id, true);
+            return;
+        }
+        setBirth_dateError(dalyvis.id, false);
 
         try {
             const dalyvisToUpdate = {
@@ -39,7 +89,7 @@ export const UpdateDalyvis = ({ dalyvis, onUpdated, onCancelUpdate }) => {
 
             onUpdated();
         } catch (error) {
-            addMessage(`Error: ${error}`);
+            addMessage(`Klaida: ${error}`);
         }
     }
 
@@ -54,6 +104,7 @@ export const UpdateDalyvis = ({ dalyvis, onUpdated, onCancelUpdate }) => {
                     title="Vardas"
                     placeholder="Vardas"
                     onChange={(e) => setFirstname(e.target.value)}
+                    id={`firstName_${dalyvis.id}`}
                 />
             </Columns.Column>
 
@@ -63,6 +114,7 @@ export const UpdateDalyvis = ({ dalyvis, onUpdated, onCancelUpdate }) => {
                     title="Pavardė"
                     placeholder="Pavardė"
                     onChange={(e) => setLastname(e.target.value)}
+                    id={`lastName_${dalyvis.id}`}
                 />
             </Columns.Column>
 
@@ -72,6 +124,7 @@ export const UpdateDalyvis = ({ dalyvis, onUpdated, onCancelUpdate }) => {
                     title="El. paštas"
                     placeholder="El. paštas"
                     onChange={(e) => setEmail(e.target.value)}
+                    id={`email_${dalyvis.id}`}
                 />
             </Columns.Column>
 
@@ -81,6 +134,7 @@ export const UpdateDalyvis = ({ dalyvis, onUpdated, onCancelUpdate }) => {
                     title="Gimimo data"
                     placeholder="Gimimo data"
                     onChange={(e) => setBirth_date(e.target.value)}
+                    id={`birth_date_${dalyvis.id}`}
                 />
             </Columns.Column>
             <Columns.Column>
@@ -91,7 +145,7 @@ export const UpdateDalyvis = ({ dalyvis, onUpdated, onCancelUpdate }) => {
                         type="submit"
                         onClick={handleSubmit}
                     ><Icon align="left"
-                        title="Išsaugoti pakeitimus"
+                        title="Išsaugoti pakeitimus."
                     >
                             <FontAwesomeIcon icon={faSave} />
                         </Icon>
@@ -104,7 +158,7 @@ export const UpdateDalyvis = ({ dalyvis, onUpdated, onCancelUpdate }) => {
                         type="submit"
                         onClick={onCancelUpdate}
                     ><Icon align="left"
-                        title="Nesaugoti pakeitimų"
+                        title="Nesaugoti pakeitimų."
                     >
                             <FontAwesomeIcon icon={faTimes} />
                         </Icon>
