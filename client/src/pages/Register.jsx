@@ -65,7 +65,7 @@ export const Register = () => {
         return;
       }
 
-      addMessage("Registracija sėkminga. Galite prisijungti naudodami savo el paštą ir slaptažodį.");
+      addMessage("Registracija sėkminga. Galite prisijungti naudodami savo el. paštą ir slaptažodį.");
 
       navigate("/login");
 

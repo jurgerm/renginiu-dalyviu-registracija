@@ -15,8 +15,6 @@ const main = async () => {
         app.use(cors());
         app.mysql = connection;
 
-        console.log("aaa");
-
         app.use('/v1/auth', auth);
         app.use('/v1/dalyviai', dalyviai);
        

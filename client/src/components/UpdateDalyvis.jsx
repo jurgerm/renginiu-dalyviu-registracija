@@ -65,11 +65,12 @@ export const UpdateDalyvis = ({ dalyvis, onUpdated, onCancelUpdate }) => {
 
         const dalyvio_metai = new Date(birth_date).getFullYear();
         const einamieji_metai = new Date().getFullYear();
-        if (einamieji_metai - dalyvio_metai < 18) {
-            addMessage("Klaida! Dalyviai turi būti pilnamečiai.");
+        if (einamieji_metai - dalyvio_metai < 0) {
+            addMessage("Dalyvis dar negimęss :D.");
             setBirth_dateError(dalyvis.id, true);
             return;
         }
+
         setBirth_dateError(dalyvis.id, false);
 
         try {

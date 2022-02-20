@@ -59,9 +59,7 @@ export const AddDalyvis = ({ onAdded }) => {
         }
 
         if (new Date(birth_date).toLocaleDateString() === 'Invalid Date') {
-
             addMessage("Klaida! Įrašykite gimimo datą formatu YYYY-MM-DD.");
-
             setBirth_dateError(0, true);
 
             return;
@@ -75,7 +73,7 @@ export const AddDalyvis = ({ onAdded }) => {
             setBirth_dateError(0, true);
             return;
         }
-        
+
         const einamieji_metai = new Date().getFullYear();
         const amzius = einamieji_metai - dalyvioMetai;
 
@@ -84,6 +82,8 @@ export const AddDalyvis = ({ onAdded }) => {
             setBirth_dateError(0, true);
             return;
         }
+
+        setBirth_dateError(0, false);
 
         try {
             const dalyvis = {

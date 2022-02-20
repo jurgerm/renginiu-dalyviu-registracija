@@ -35,7 +35,7 @@ export const Dalyviai = () => {
             const allDalyviai = await DalyviaiApi.getDalyviai(token);
 
             if (allDalyviai.error) {
-                addMessage(`ERROR: ${allDalyviai.error}`);
+                addMessage(`Klaida: ${allDalyviai.error}`);
                 setDalyviai([]);
                 return;
             }
@@ -51,12 +51,12 @@ export const Dalyviai = () => {
         }
         catch (err) {
             console.log({ err });
-            addMessage(`ERROR: ${err}`);
+            addMessage(`Klaida: ${err}`);
             setDalyviai([]);
         }
     };
 
-    // fetch questions list on component load
+    // fetch dalyviai list on component load
     useEffect(() => {
         fetchDalyviai();
     }, []);
@@ -88,10 +88,10 @@ export const Dalyviai = () => {
         <Container>
             <Heading>
                 Dalyvių sąrašas
-                
+
             </Heading>
             <Columns className="table-header">
-                <Columns.Column>                    
+                <Columns.Column>
                     &nbsp;
                 </Columns.Column>
                 <Columns.Column onClick={() => toggleSorting('firstname')}>
@@ -101,7 +101,7 @@ export const Dalyviai = () => {
                             {(sortDir === 1) ? (
                                 <FontAwesomeIcon icon={faSortAlphaDown} />
                             ) : (
-                                    <FontAwesomeIcon icon={faSortAlphaUp} />
+                                <FontAwesomeIcon icon={faSortAlphaUp} />
                             )}
                         </span>
                     )}
@@ -113,7 +113,7 @@ export const Dalyviai = () => {
                             {(sortDir === 1) ? (
                                 <FontAwesomeIcon icon={faSortAlphaDown} />
                             ) : (
-                                    <FontAwesomeIcon icon={faSortAlphaUp} />
+                                <FontAwesomeIcon icon={faSortAlphaUp} />
                             )}
                         </span>
                     )}
@@ -123,9 +123,9 @@ export const Dalyviai = () => {
                     {(sortBy === 'email') && (
                         <span className="mx-3">
                             {(sortDir === 1) ? (
-                            <FontAwesomeIcon icon={faSortAlphaUp} />
+                                <FontAwesomeIcon icon={faSortAlphaUp} />
                             ) : (
-                            <FontAwesomeIcon icon={faSortAlphaDown} />
+                                <FontAwesomeIcon icon={faSortAlphaDown} />
                             )}
                         </span>
                     )}
@@ -135,9 +135,9 @@ export const Dalyviai = () => {
                     {(sortBy === 'birth_date') && (
                         <span className="mx-3">
                             {(sortDir === 1) ? (
-                            <FontAwesomeIcon icon={faSortAlphaUp} />
+                                <FontAwesomeIcon icon={faSortAlphaUp} />
                             ) : (
-                            <FontAwesomeIcon icon={faSortAlphaDown} />
+                                <FontAwesomeIcon icon={faSortAlphaDown} />
                             )}
                         </span>
                     )}

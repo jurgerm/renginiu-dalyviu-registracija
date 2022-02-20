@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }) => {
 
     const login = async (user, password) => {
         const res = await Auth.login(user, password);
-        console.log('login',{res});
+        console.log('login', { res });
         if (res.err) {
             console.error(res.err);
 
