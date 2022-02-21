@@ -90,3 +90,4 @@ Terminai:
   * Context panaudojimas autentifikacijai ir pranešimų siuntimui tarp atskirų React komponentų.
   * Vieninga pranešimų vieta, rodyti pranešimams iš kreipimųsi į webservisus, validacijas.
   * Validacijos metu laukeliai su klaidomis paryškinami, įvedus informaciją teisingai paryškinimas nusiima. 
+  * Tam, kad pademonstruočiau sugebėjimą naudoti tiek NodeJS `require`, tiek ES module `import `/` export`,  backend ir frontend padaryta skirtingai: backend buvo panaudota  `require`, o frontend - `import `/` export`.
